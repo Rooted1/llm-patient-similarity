@@ -216,3 +216,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Raw data
+/data/
+
+# Base data path
+.env
+
+# Remove .DS_Store files
+.DS_Store
