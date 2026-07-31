@@ -1,5 +1,7 @@
-# Implement patient summary structured-to-text
-def generate_patient_summary(patient):
+# Implement patient summary structured-to-text for all patients
+def generate_patient_summary(
+        patient
+):
     """
     Convert a patient record into a natural language summary.
     """
@@ -8,11 +10,13 @@ def generate_patient_summary(patient):
         f"- {condition}"
         for condition in patient["CONDITIONS"]
     )
-
-    medications = "\n".join(
-        f"- {medication}"
-        for medication in patient["MEDICATIONS"]
-    )
+    if patient["MEDICATIONS"]:
+        medications = "\n".join(
+            f"- {medication}"
+            for medication in patient["MEDICATIONS"]
+        )
+    else:
+        medications = "- None recorded"
 
     return f"""
 Patient Profile
@@ -29,4 +33,28 @@ Conditions:
 
 Medications:
 {medications}
-"""
+""".strip()
+
+# Create summaries for all four patients
+def generate_similarity_context(
+    query_patient,
+    similar_patients,
+):
+    """
+    Create textual context containing the query patient
+    and retrieved similar patients.
+    """
+
+    context = "QUERY PATIENT\n"
+    context += "=" * 50 + "\n"
+    context += generate_patient_summary(query_patient)
+
+    for i, (_, patient) in enumerate(
+        similar_patients.iterrows(),
+        start=1
+    ):
+        context += f"\n\nSIMILAR PATIENT {i}\n"
+        context += "=" * 50 + "\n"
+        context += generate_patient_summary(patient)
+
+    return context

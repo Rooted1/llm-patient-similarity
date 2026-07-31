@@ -1,0 +1,654 @@
+METHOD,PROMPT,RESPONSE
+Zero-shot,"
+You are analyzing synthetic patient records for an educational healthcare AI project.
+
+Compare the query patient with the three retrieved patients.
+
+Explain:
+- the major clinical similarities,
+- the important differences,
+- and why these patients may have been retrieved as similar.
+
+Do not make diagnoses or treatment recommendations.
+Base your answer only on the supplied information.
+
+The similarity retrieval system used the following features:
+- TF-IDF representation of recorded clinical conditions
+- Age
+- Gender
+- Encounter count
+
+Race, ethnicity, and medication history were NOT used to calculate
+the similarity scores. You may discuss these attributes as observed
+similarities or differences, but do not claim that they caused a
+patient to be retrieved.
+
+PATIENT RECORDS
+----------------
+QUERY PATIENT
+==================================================
+Patient Profile
+
+Age: 8
+Gender: M
+Race: white
+Ethnicity: nonhispanic
+
+Encounter Count: 5
+
+Conditions:
+- Otitis media
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- Amoxicillin 250 MG Oral Capsule
+- Acetaminophen 160 MG Chewable Tablet
+
+SIMILAR PATIENT 1
+==================================================
+Patient Profile
+
+Age: 9
+Gender: M
+Race: black
+Ethnicity: nonhispanic
+
+Encounter Count: 5
+
+Conditions:
+- Otitis media
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- Amoxicillin 250 MG Oral Capsule
+- Ibuprofen 100 MG Oral Tablet
+
+SIMILAR PATIENT 2
+==================================================
+Patient Profile
+
+Age: 7
+Gender: M
+Race: white
+Ethnicity: nonhispanic
+
+Encounter Count: 5
+
+Conditions:
+- Otitis media
+- Cough (finding)
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- None recorded
+
+SIMILAR PATIENT 3
+==================================================
+Patient Profile
+
+Age: 9
+Gender: M
+Race: asian
+Ethnicity: nonhispanic
+
+Encounter Count: 4
+
+Conditions:
+- Otitis media
+- Cough (finding)
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- None recorded
+","### Major clinical similarities
+
+- All four patients are boys of similar age (7–9 years).
+- Every patient has the same core recorded conditions:
+  - Otitis media
+  - Fever
+  - Suspected COVID-19
+  - COVID-19
+- The query patient and Similar Patient 1 have an exact match in their condition lists.
+- Similar Patients 2 and 3 share all of the query patient’s conditions but also have cough recorded.
+
+### Important differences
+
+- **Age:** The query patient is 8; Similar Patient 1 and 3 are 9, while Similar Patient 2 is 7.
+- **Encounter count:** The query patient and Similar Patients 1 and 2 each have five encounters. Similar Patient 3 has four.
+- **Medications:**
+  - The query patient has amoxicillin and acetaminophen recorded.
+  - Similar Patient 1 also has amoxicillin, but has ibuprofen rather than acetaminophen.
+  - Similar Patients 2 and 3 have no medications recorded.
+- **Race:** The query patient is recorded as white; the retrieved patients are black, white, and Asian, respectively. All are recorded as non-Hispanic. Race and ethnicity were not used for retrieval.
+
+### Why they were likely retrieved as similar
+
+The strongest reason is the high overlap in TF-IDF–represented clinical conditions. Similar Patient 1 has an identical condition set, while Patients 2 and 3 differ only by the additional cough finding. Their close ages, shared male gender, and nearly identical encounter counts also increase similarity. Medication history, race, and ethnicity did not contribute to the similarity scores."
+Few-shot,"
+You are analyzing synthetic patient records for an educational healthcare AI project.
+
+Below are examples showing how patient similarity should be analyzed.
+
+EXAMPLE 1
+
+Query Patient:
+Age: 65
+Gender: F
+Conditions: Hypertension, Diabetes
+
+Similar Patient:
+Age: 67
+Gender: F
+Conditions: Hypertension, Diabetes, Hyperlipidemia
+
+Analysis:
+These patients are similar because they are close in age 
+and share hypertension and diabetes. The similar patient 
+also has hyperlipidemia, which is an important clinical 
+difference.
+
+EXAMPLE 2
+
+Query Patient:
+Age: 32
+Gender: M
+Conditions: Asthma, Cough
+
+Similar Patient:
+Age: 35
+Gender: M
+Conditions: Asthma, Fever
+
+Analysis:
+Both patients have asthma and are similar in age and gender. 
+However, their associated symptoms differ: the query patient 
+has cough while the comparison patient has fever.
+
+Now apply the same comparison approach to the following synthetic patient recordds.
+
+Identify:
+1. Major clinical similarities
+2. Important differences
+3. Why the patients may have been retrieved as similar
+
+Do not make diagnoses or treatment recommendations.
+
+The similarity retrieval system used the following features:
+- TF-IDF representation of recorded clinical conditions
+- Age
+- Gender
+- Encounter count
+
+Race, ethnicity, and medication history were NOT used to calculate
+the similarity scores. You may discuss these attributes as observed
+similarities or differences, but do not claim that they caused a
+patient to be retrieved.
+
+PATIENT RECORDS
+----------------
+QUERY PATIENT
+==================================================
+Patient Profile
+
+Age: 8
+Gender: M
+Race: white
+Ethnicity: nonhispanic
+
+Encounter Count: 5
+
+Conditions:
+- Otitis media
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- Amoxicillin 250 MG Oral Capsule
+- Acetaminophen 160 MG Chewable Tablet
+
+SIMILAR PATIENT 1
+==================================================
+Patient Profile
+
+Age: 9
+Gender: M
+Race: black
+Ethnicity: nonhispanic
+
+Encounter Count: 5
+
+Conditions:
+- Otitis media
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- Amoxicillin 250 MG Oral Capsule
+- Ibuprofen 100 MG Oral Tablet
+
+SIMILAR PATIENT 2
+==================================================
+Patient Profile
+
+Age: 7
+Gender: M
+Race: white
+Ethnicity: nonhispanic
+
+Encounter Count: 5
+
+Conditions:
+- Otitis media
+- Cough (finding)
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- None recorded
+
+SIMILAR PATIENT 3
+==================================================
+Patient Profile
+
+Age: 9
+Gender: M
+Race: asian
+Ethnicity: nonhispanic
+
+Encounter Count: 4
+
+Conditions:
+- Otitis media
+- Cough (finding)
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- None recorded
+","### Similar Patient 1
+
+**Major similarities**
+- Nearly identical age (8 vs. 9), and both are male.
+- Exact match across all recorded conditions: otitis media, fever, suspected COVID-19, and COVID-19.
+- Both have 5 encounters.
+- Both are recorded as non-Hispanic and received amoxicillin.
+
+**Important differences**
+- Recorded race differs: query patient is white; similar patient is black.
+- The query patient has acetaminophen recorded, while Similar Patient 1 has ibuprofen.
+
+**Why retrieved as similar**
+- The condition profiles are identical, and age, gender, and encounter count are also closely matched. Race and medications were not retrieval features.
+
+---
+
+### Similar Patient 2
+
+**Major similarities**
+- Close in age (8 vs. 7), with the same gender.
+- Shares all four query conditions: otitis media, fever, suspected COVID-19, and COVID-19.
+- Both have 5 encounters.
+- Race and ethnicity are also the same.
+
+**Important differences**
+- Similar Patient 2 additionally has cough recorded.
+- The query patient has amoxicillin and acetaminophen listed, while Similar Patient 2 has no medications recorded.
+
+**Why retrieved as similar**
+- The patients have substantial condition overlap, the same gender and encounter count, and only a one-year age difference. Race, ethnicity, and medication history did not contribute to retrieval.
+
+---
+
+### Similar Patient 3
+
+**Major similarities**
+- Close in age (8 vs. 9), and both are male.
+- Shares all query conditions: otitis media, fever, suspected COVID-19, and COVID-19.
+- Both are recorded as non-Hispanic.
+
+**Important differences**
+- Similar Patient 3 additionally has cough recorded.
+- Encounter counts differ slightly: 5 for the query patient versus 4.
+- Recorded race differs: white versus Asian.
+- The query patient has two medications listed, while Similar Patient 3 has none recorded.
+
+**Why retrieved as similar**
+- Strong overlap in recorded conditions, matching gender, similar age, and a small encounter-count difference likely produced the similarity. Race, ethnicity, and medication history were not used in calculating the score."
+Chain-of-Thought,"
+You are analyzing synthetic patient records for an educational healthcare AI project.
+
+Analyze the query patient and retrieved patients using the following structured reasoning process.
+
+Step 1: Compare their demographics, ecpecially age and gender.
+
+Step 2: Compare their clinical conditions and identify conditions shared with the query patient.
+
+Step 3: Compare their medication histories and identify
+important similarities or differences.
+
+Step 4: Compare healthcare utilization using encounter counts.
+
+Step 5: Based on the evidence above, provide a concise explanation
+of why the retrieved patients are clinicalLy similar to the query patient.
+
+Clearly report the result of each step. Use only the
+information supplied in the patient records. Do not make
+new diagnoses or treatment recommendations.
+
+The similarity retrieval system used the following features:
+- TF-IDF representation of recorded clinical conditions
+- Age
+- Gender
+- Encounter count
+
+Race, ethnicity, and medication history were NOT used to calculate
+the similarity scores. You may discuss these attributes as observed
+similarities or differences, but do not claim that they caused a
+patient to be retrieved.
+
+PATIENT RECORDS
+----------------
+QUERY PATIENT
+==================================================
+Patient Profile
+
+Age: 8
+Gender: M
+Race: white
+Ethnicity: nonhispanic
+
+Encounter Count: 5
+
+Conditions:
+- Otitis media
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- Amoxicillin 250 MG Oral Capsule
+- Acetaminophen 160 MG Chewable Tablet
+
+SIMILAR PATIENT 1
+==================================================
+Patient Profile
+
+Age: 9
+Gender: M
+Race: black
+Ethnicity: nonhispanic
+
+Encounter Count: 5
+
+Conditions:
+- Otitis media
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- Amoxicillin 250 MG Oral Capsule
+- Ibuprofen 100 MG Oral Tablet
+
+SIMILAR PATIENT 2
+==================================================
+Patient Profile
+
+Age: 7
+Gender: M
+Race: white
+Ethnicity: nonhispanic
+
+Encounter Count: 5
+
+Conditions:
+- Otitis media
+- Cough (finding)
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- None recorded
+
+SIMILAR PATIENT 3
+==================================================
+Patient Profile
+
+Age: 9
+Gender: M
+Race: asian
+Ethnicity: nonhispanic
+
+Encounter Count: 4
+
+Conditions:
+- Otitis media
+- Cough (finding)
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- None recorded
+","### Step 1: Demographics
+
+- **Query patient:** 8-year-old male.
+- **Similar Patient 1:** 9-year-old male; one year older.
+- **Similar Patient 2:** 7-year-old male; one year younger.
+- **Similar Patient 3:** 9-year-old male; one year older.
+
+All are male children within one year of the query patient’s age. Patients 1 and 3 differ in recorded race from the query patient, while Patient 2 has the same recorded race. All are recorded as non-Hispanic. Race and ethnicity were not used for retrieval.
+
+### Step 2: Clinical Conditions
+
+All three retrieved patients share the query patient’s complete set of recorded conditions:
+
+- Otitis media
+- Fever
+- Suspected COVID-19
+- COVID-19
+
+Patients 2 and 3 additionally have **cough**, which is not recorded for the query patient. Patient 1 has an exact condition-list match.
+
+### Step 3: Medication Histories
+
+- **Patient 1:** Shares **amoxicillin 250 mg** with the query patient. The query patient has acetaminophen, whereas Patient 1 has ibuprofen.
+- **Patients 2 and 3:** No medications are recorded, unlike the query patient, who has amoxicillin and acetaminophen.
+
+Medication history was not used to calculate similarity.
+
+### Step 4: Healthcare Utilization
+
+- **Query patient:** 5 encounters.
+- **Patients 1 and 2:** Also have 5 encounters, an exact match.
+- **Patient 3:** Has 4 encounters, one fewer than the query patient.
+
+### Step 5: Overall Clinical Similarity
+
+The retrieved patients are clinically similar because they are male children nearly identical in age, share all four of the query patient’s recorded conditions, and have comparable encounter counts. Patient 1 is the closest exact clinical and utilization match and also shares amoxicillin use. Patients 2 and 3 differ mainly by having an additional cough finding and, for Patient 3, one fewer encounter."
+Tree-of-Thought,"
+You are analyzing synthetic patient records for an educational healthcare AI project.
+
+Evaluate the similarity between the query patient and the 
+retrieved patients from three separate perspectives.
+
+Perspective A - Clinical Conditions
+Compare diagnoses and symptoms. Identify important shared conditions and meaningful differences.
+
+Perspective B - Demographics
+Compare age and gender and determine how strongly these characteristics support similarity.
+
+Perspective C - Treatment and Healthcare Utilization
+Compare medication histories and encounter counts.
+
+For each perspective:
+- identify the strongest evidence for similarity,
+- identify important differences,
+- and briefly assess how informative that perspective is.
+
+After evaluating all three perspectives, synthesize them 
+into a final explanationof why the retrieved patient are 
+similar to the query patient.
+
+Base the analysis only on the supplied synthetic records.
+Do not make diagnoses or treatment recommendations.
+
+The similarity retrieval system used the following features:
+- TF-IDF representation of recorded clinical conditions
+- Age
+- Gender
+- Encounter count
+
+Race, ethnicity, and medication history were NOT used to calculate
+the similarity scores. You may discuss these attributes as observed
+similarities or differences, but do not claim that they caused a
+patient to be retrieved.
+
+PATIENT RECORDS
+----------------
+QUERY PATIENT
+==================================================
+Patient Profile
+
+Age: 8
+Gender: M
+Race: white
+Ethnicity: nonhispanic
+
+Encounter Count: 5
+
+Conditions:
+- Otitis media
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- Amoxicillin 250 MG Oral Capsule
+- Acetaminophen 160 MG Chewable Tablet
+
+SIMILAR PATIENT 1
+==================================================
+Patient Profile
+
+Age: 9
+Gender: M
+Race: black
+Ethnicity: nonhispanic
+
+Encounter Count: 5
+
+Conditions:
+- Otitis media
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- Amoxicillin 250 MG Oral Capsule
+- Ibuprofen 100 MG Oral Tablet
+
+SIMILAR PATIENT 2
+==================================================
+Patient Profile
+
+Age: 7
+Gender: M
+Race: white
+Ethnicity: nonhispanic
+
+Encounter Count: 5
+
+Conditions:
+- Otitis media
+- Cough (finding)
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- None recorded
+
+SIMILAR PATIENT 3
+==================================================
+Patient Profile
+
+Age: 9
+Gender: M
+Race: asian
+Ethnicity: nonhispanic
+
+Encounter Count: 4
+
+Conditions:
+- Otitis media
+- Cough (finding)
+- Fever (finding)
+- Suspected COVID-19
+- COVID-19
+
+Medications:
+- None recorded
+","## Perspective A — Clinical Conditions
+
+**Strongest evidence for similarity**
+- All three retrieved patients share the query patient’s four recorded conditions: **otitis media, fever, suspected COVID-19, and COVID-19**.
+- Similar Patient 1 has an **exact condition match**.
+- Similar Patients 2 and 3 have the same core condition set plus **cough**.
+
+**Important differences**
+- Cough is recorded for Similar Patients 2 and 3 but not for the query patient.
+- There are no other condition differences in the supplied records.
+
+**How informative this is**
+- This is the **most informative perspective**. The exact or near-exact overlap in conditions strongly supports similarity, particularly because condition TF-IDF was used by the retrieval system.
+
+## Perspective B — Demographics
+
+**Strongest evidence for similarity**
+- All patients are **male**.
+- Their ages are tightly clustered: the query patient is 8, Similar Patient 2 is 7, and Similar Patients 1 and 3 are 9.
+- All are also recorded as non-Hispanic, although ethnicity was not used for retrieval.
+
+**Important differences**
+- Each retrieved patient differs from the query by one year in age.
+- Race differs for Similar Patient 1 (Black) and Similar Patient 3 (Asian); Similar Patient 2 and the query are recorded as White. Race did not contribute to retrieval.
+
+**How informative this is**
+- Age and gender provide **strong supporting similarity** because all records concern boys of nearly identical ages, and both features were used by the retrieval system. The racial differences do not weaken the modeled similarity because race was not a retrieval feature.
+
+## Perspective C — Treatment and Healthcare Utilization
+
+**Strongest evidence for similarity**
+- The query patient and Similar Patient 1 both have **amoxicillin 250 mg** recorded.
+- All patients have very similar healthcare utilization:
+  - Query: 5 encounters
+  - Similar Patient 1: 5
+  - Similar Patient 2: 5
+  - Similar Patient 3: 4
+- The query and Similar Patient 1 also each have a recorded fever/pain medication, although these differ: acetaminophen versus ibuprofen.
+
+**Important differences**
+- Similar Patient 1 has ibuprofen rather than the query patient’s acetaminophen.
+- Similar Patients 2 and 3 have no medications recorded, unlike the query patient.
+- Medication history was not used to calculate similarity.
+
+**How informative this is**
+- Encounter count is **highly supportive**, with exact matches for Patients 1 and 2 and only a one-encounter difference for Patient 3. Medication similarity is mixed and provides only supplementary context because medications were not part of the retrieval calculation.
+
+## Overall Synthesis
+
+The retrieved patients are similar primarily because they share the query patient’s complete core condition profile, are male children within one year of the query patient’s age, and have nearly identical encounter counts. **Similar Patient 1 is the closest overall match**, with identical conditions and encounter count, the same gender, nearly the same age, and shared amoxicillin use. Similar Patients 2 and 3 remain strong matches because they share all four core conditions; their only clinical addition is cough. Patient 2 also has the same encounter count, while Patient 3 differs by one encounter. Medication and race differences are secondary observations and did not cause retrieval."
